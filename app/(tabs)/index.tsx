@@ -1,75 +1,97 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import Button from '@/components/ui/Button';
+import { useRouter } from 'expo-router';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function HomeScreen() {
+  const router = useRouter();
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>Manpower Dashboard</Text>
+
+      <View style={styles.stats}>
+        <View style={styles.statCard}>
+          <Text style={styles.statNumber}>34</Text>
+          <Text style={styles.statLabel}>Available Workers</Text>
+        </View>
+        <View style={styles.statCard}>
+          <Text style={styles.statNumber}>12</Text>
+          <Text style={styles.statLabel}>Open Jobs</Text>
+        </View>
+        <View style={styles.statCard}>
+          <Text style={styles.statNumber}>5</Text>
+          <Text style={styles.statLabel}>Hired Today</Text>
+        </View>
+      </View>
+
+      <Text style={styles.sectionTitle}>Quick Actions</Text>
+      <View style={styles.actions}>
+        <Button title="View All Jobs" onPress={() => router.push('/jobs')} />
+        <View style={{ height: 12 }} />
+        <Button title="View Dashboard Workers" onPress={() => router.push('/dashboard')} />
+      </View>
+
+      <Text style={styles.sectionTitle}>Auth Actions</Text>
+      <View style={styles.row}>
+        <View style={{ flex: 1, marginRight: 6 }}>
+          <Button title="Login" onPress={() => router.push('/login')} />
+        </View>
+        <View style={{ flex: 1, marginLeft: 6 }}>
+          <Button title="Register" onPress={() => router.push('/register')} />
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    padding: 20,
+    paddingBottom: 60,
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 20,
+  },
+  stats: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 24,
+    gap: 10,
+    flexWrap: 'wrap',
+  },
+  statCard: {
+    backgroundColor: '#f2f2f2',
+    borderRadius: 12,
+    padding: 16,
+    flex: 1,
     alignItems: 'center',
-    gap: 8,
+    minWidth: '30%',
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  statNumber: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#007bff',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  statLabel: {
+    fontSize: 14,
+    color: '#555',
+    marginTop: 4,
+    textAlign: 'center',
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 12,
+  },
+  actions: {
+    gap: 12,
+    marginBottom: 20,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
